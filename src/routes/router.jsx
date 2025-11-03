@@ -5,8 +5,12 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AuthLayouty from "../layouts/AuthLayouty";
+import NewsDetails from "../pages/NewsDetails";
+import PrivetRoute from "../Provider/PrivetRoute";
+import Loading from "../components/Loading";
 
 const router = createBrowserRouter([
+  //Home Layout
   {
     path: "/",
     element: <HomeLayout></HomeLayout>,
@@ -19,9 +23,12 @@ const router = createBrowserRouter([
         path: "/category/:id",
         element: <CategoryNews></CategoryNews>,
         loader: () => fetch("/news.json"),
+        hydrateFallbackElement: <Loading></Loading>
       },
     ],
   },
+
+  //Auth-Layout
   {
     path: "/auth",
     element: <AuthLayouty></AuthLayouty>,
@@ -36,9 +43,15 @@ const router = createBrowserRouter([
       }
     ]
   },
+
+  //News Layout (Logic & Card)
   {
-    path: "/news",
-    element: <h2>News Layout</h2>,
+    path: "/news-details/:id",
+    loader: () => fetch("/news.json"),
+    element: <PrivetRoute>
+      <NewsDetails></NewsDetails>,
+    </PrivetRoute>
+
   },
   {
     path: "/*",
